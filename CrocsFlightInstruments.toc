@@ -1,0 +1,8 @@
+## Interface: 40000
+## Title: CrocsFlightInstruments
+## Author: Mark Doyle
+## Version: 0.0.1-SNAPSHOT
+## DefaultState: Enabled
+
+Vsi.lua
+VsiFrame.xml
