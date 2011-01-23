@@ -2,95 +2,97 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemalocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
 
-  <Frame name="vsiFrame" moveable="true" clampedToScreen="true">
-    <!--<FrameSkin skinid="8309da78-006d-4401-9d4f-cbc448d08261" frameid="047a5294-fa59-460b-83cb-0c19711baeb7" />-->
-    <Size>
-      <AbsDimension x="139" y="137" />
-    </Size>
+	<!-- Container frame - plain with no border -->
+	<Frame name="vsiFrame" moveable="true" clampedToScreen="true">
+		<Size>
+			<AbsDimension x="139" y="137" />
+		</Size>
 	
-    <Anchors>
-      <Anchor point="CENTER" relativeTo="UIParent">
-        <Offset>
-          <AbsDimension x="0" y="400" />
-        </Offset>
-      </Anchor>
-    </Anchors>
+		<Anchors>
+			<Anchor point="CENTER" relativeTo="UIParent">
+				<Offset>
+					<AbsDimension x="0" y="400" />
+				</Offset>
+			</Anchor>
+		</Anchors>
 	
-    <TitleRegion setAllPoints="true" />
+		<TitleRegion setAllPoints="true" />
 	
-<!--<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Gold-Border" tile="true">-->
-	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" tile="true">
-      <BackgroundInsets>
-        <AbsInset left="11" right="12" top="12" bottom="11" />
-      </BackgroundInsets>
-      <TileSize>
-        <AbsValue val="32" />
-      </TileSize>
-      <!--
-	  <EdgeSize>
-        <AbsValue val="32" />
-      </EdgeSize>
-	  -->
-    </Backdrop>
+		<!--<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Gold-Border" tile="true">-->
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<!--
+				<EdgeSize>
+					<AbsValue val="32" />
+				</EdgeSize>
+			-->
+		</Backdrop>
 	
-	<Layers>
-		<Layer level="OVERLAY">
-		</Layer>
-		<Layer>
-			<FontString name="attitudeText" inherits="GameFontNormal">
+		<Layers>
+			<Layer level="OVERLAY">
+			</Layer>
+			
+			<Layer>
+				<FontString name="attitudeText" inherits="GameFontNormal">
+					<Size>
+						<AbsDimension x="131" y="16" />
+					</Size>
+					<Anchors>
+						<Anchor point="BOTTOM">
+							<Offset x="0" y="15" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<Frames>
+			<!-- Statusbar updates are currentyl controlled by the main frame OnUpdate callback -->
+			<StatusBar name="$_attitudeBar" parentKey="attitudeBar" toplevel="true" orientation="VERTICAL" minValue="-90" maxValue="90" defaultValue="0">
+				<BarTexture file="Interface\Buttons\UI-Listbox-Highlight2"/>
+				<BarColor r="1.0" g="155" b="255"/>
 				<Size>
-					<AbsDimension x="131" y="16" />
+					<AbsDimension x="15" y="90" />
 				</Size>
 				<Anchors>
-					<Anchor point="BOTTOM">
-							<Offset x="0" y="15" />
+					<Anchor point="TOP">
+						<Offset x="0" y="-15" />
 					</Anchor>
 				</Anchors>
-			</FontString>
-		</Layer>
-	</Layers>
+				
+				<Layer level="OVERLAY">
+					<Texture name="bar" file="bar.tga">
+						<Anchors>
+							<Anchor point="CENTER"></Anchor>
+						</Anchors>
+					</Texture>
+				</Layer>
+				<Scripts>
+				</Scripts>
+			</StatusBar>
+		</Frames>
 
-	<Frames>
-		<StatusBar name="$_attitudeBar" parentKey="attitudeBar" toplevel="true" orientation="VERTICAL" minValue="-90" maxValue="90" defaultValue="0">
-			<BarTexture file="Interface\Buttons\UI-Listbox-Highlight2"/>
-			<BarColor r="1.0" g="155" b="255"/>
-			<Size>
-				<AbsDimension x="15" y="90" />
-			</Size>
-			<Anchors>
-				<Anchor point="TOP">
-					<Offset x="0" y="-15" />
-				</Anchor>
-			</Anchors>
-			<Layer level="OVERLAY">
-				<Texture name="bar" file="bar.tga">
-					<Anchors>
-						<Anchor point="CENTER"></Anchor>
-					</Anchors>
-				</Texture>
-			</Layer>
-			<Scripts>
-			</Scripts>
-		</StatusBar>
-		
-	</Frames>
+		<Scripts>
+			<OnLoad>
+				vsiFrame_onLoad(self);
+				self:RegisterForDrag("LeftButton");
+			</OnLoad>
+			<OnDragStart>
+				self:StartMoving();
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing();
+			</OnDragStop>
+			<OnUpdate>
+				vsiFrame_OnUpdate(self, elapsed);
+			</OnUpdate>
+		</Scripts>
 
-    <Scripts>
-		<OnLoad>
-			vsiFrame_onLoad(self);
-			self:RegisterForDrag("LeftButton");
-		</OnLoad>
-		<OnDragStart>
-			self:StartMoving();
-		</OnDragStart>
-		<OnDragStop>
-			self:StopMovingOrSizing();
-		</OnDragStop>
-		<OnUpdate>
-			vsiFrame_OnUpdate(self, elapsed);
-		</OnUpdate>
-    </Scripts>
-	
   </Frame>
   
 </Ui>
