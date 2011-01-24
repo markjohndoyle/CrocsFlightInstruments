@@ -27,6 +27,7 @@ local function getSpeed()
 	return math.floor(meters);
 end
 
+-- Simple function to return a table representing an RGB + alpha colour.  Keys are red, green, blue, alpha
 local function getColour(red, green, blue, alpha)
 	local colour = {};
 	colour["red"] = red;
@@ -36,37 +37,39 @@ local function getColour(red, green, blue, alpha)
 	return colour;
 end
 
+--  Sets the positive and negtive pitch status bars based upon the current attitude
 local function setPitchBars(attitude)
+	-- get the bars max and min - useful as it allows a dev to change the actual numbers in the XML file.
+	local MIN, MAX = vsiFrame.negAttitudeBar:GetMinMaxValues();
+	
 	-- if the attitude is not a number (for reasons this function doesn't care about)
 	-- set them bars to level flight.
 	if (type(attitude) ~= "number") then
-		vsiFrame.posAttitudeBar:SetValue(0);
-		vsiFrame.negAttitudeBar:SetValue(90);
+		vsiFrame.posAttitudeBar:SetValue(MIN);
+		vsiFrame.negAttitudeBar:SetValue(MAX);
 	else
-		minValue, maxValue = vsiFrame.negAttitudeBar:GetMinMaxValues();
 		-- if we are in level flight
 		if(attitude == 0) then
 			-- the neg bar is black to simulate it filling "downwards" so we must set it to full, i.e., 90
 			vsiFrame.posAttitudeBar:SetValue(attitude);
-			vsiFrame.negAttitudeBar:SetValue(maxValue);
+			vsiFrame.negAttitudeBar:SetValue(MAX);
 		elseif(attitude > 0) then
+			-- the neg bar is black to simulate it filling "downwards" so we must set it to full, i.e., 90
 			vsiFrame.posAttitudeBar:SetValue(attitude);
-			vsiFrame.negAttitudeBar:SetValue(maxValue);
+			vsiFrame.negAttitudeBar:SetValue(MAX);
 		elseif (attitude < 0) then
+			-- the neg bar is set to the max value + the negative attitude.  The result is where the 
+			-- black status bar is set to to simulate a downwards filling statusbar
 			vsiFrame.posAttitudeBar:SetValue(0);
-			vsiFrame.negAttitudeBar:SetValue(maxValue + attitude);
+			vsiFrame.negAttitudeBar:SetValue(MAX + attitude);
 		end
 	end
 end
 
--- Updates the widgets with the calculated info
--- TODO Might needt o throttle this.  Doesn't do much at the minute though.
-function vsiFrame_OnUpdate(self, elapsed)	
-	att = getAttitude();
-
-	-- TODO - Move to seperate function
+-- Set the attitude bar colours based upon an attitude value.
+local function setAttitudeBarColours(attitude)
 	-- If the attitude is a number - i.e. we are flying
-	if (type(att) == "number") then
+	if (type(attitude) == "number") then
 		-- get a colour for the widgets based upon the attitude value
 		local posBarColour; -- also used for text colour hence why is it not transparent in negative pitch
 		local negBarColour;
@@ -87,13 +90,24 @@ function vsiFrame_OnUpdate(self, elapsed)
 		end
 
 		-- set the widget colours
-		attitudeText:SetTextColor(posBarColour.red, posBarColour["green"], posBarColour["blue"], posBarColour["alpha"]);
-		vsiFrame.posAttitudeBar:SetStatusBarColor(posBarColour["red"], posBarColour["green"], posBarColour["blue"], posBarColour["alpha"]);
-		vsiFrame.negAttitudeBar:SetBackdropColor(negBackdropColour["red"], negBackdropColour["green"], negBackdropColour["blue"], negBackdropColour["alpha"]);
+		attitudeText:SetTextColor(posBarColour.red, posBarColour.green, posBarColour.blue, posBarColour.alpha);
+		vsiFrame.posAttitudeBar:SetStatusBarColor(posBarColour.red, posBarColour.green, posBarColour.blue, posBarColour.alpha);
+		vsiFrame.negAttitudeBar:SetBackdropColor(negBackdropColour.red, negBackdropColour.green, negBackdropColour.blue, negBackdropColour.alpha);
 	end
+end
+
+-- Updates the widgets with the calculated info
+-- TODO Might need to throttle this.  Doesn't do much at the minute though.
+function vsiFrame_OnUpdate(self, elapsed)	
+	-- get the current attitude in degrees
+	att = getAttitude();
+
+	-- set the attitude bar colours based upon this value
+	setAttitudeBarColours(att);
 	
-	-- set the pitch bars
+	-- set the pitch bars values
 	setPitchBars(att);
+	
 	-- set attitude text to display degrees pitch and mph (airspeed)
 	attitudeText:SetText(att .. "°" .. " " .. getSpeed() .. "mph");
 end
@@ -113,13 +127,17 @@ local function slashCmd(msg)
 	print(getAttitude() .. " at " .. getSpeed());
 end
 
+local function registerSlashCmds()
+	-- Run - move to OnLoad?
+	SLASH_VSI1 = "/vsi";
+	SlashCmdList["VSI"] = slashCmd;
+end
+
 -- Start up stuff
 function vsiFrame_onLoad(self)
+	registerSlashCmds();
+
 	-- Set the positive bar's backdrop and the negative bar's bar to black in order to create the illusion of a single attitude bar
 	vsiFrame.posAttitudeBar:SetBackdropColor(0, 0, 0, 1);
 	vsiFrame.negAttitudeBar:SetStatusBarColor(0, 0, 0, 1);
 end
-
--- Run - move to OnLoad?
-SLASH_VSI1 = "/vsi";
-SlashCmdList["VSI"] = slashCmd;
