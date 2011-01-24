@@ -5,19 +5,20 @@
 	<!-- Container frame - plain with no border -->
 	<Frame name="vsiFrame" moveable="true" clampedToScreen="true">
 		<Size>
-			<AbsDimension x="139" y="230" />
+			<AbsDimension x="80" y="230" />
 		</Size>
 	
 		<Anchors>
 			<Anchor point="CENTER" relativeTo="UIParent">
 				<Offset>
-					<AbsDimension x="0" y="400" />
+					<AbsDimension x="-100" y="400" />
 				</Offset>
 			</Anchor>
 		</Anchors>
 	
 		<TitleRegion setAllPoints="true" />
 	
+		<!--
 		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" tile="true">
 			<BackgroundInsets>
 				<AbsInset left="11" right="12" top="12" bottom="11" />
@@ -26,11 +27,9 @@
 				<AbsValue val="32" />
 			</TileSize>
 		</Backdrop>
+		-->
 	
-		<Layers>
-			<Layer level="OVERLAY">
-			</Layer>
-			
+		<Layers>			
 			<Layer>
 				<FontString name="attitudeText" inherits="GameFontNormal">
 					<Size>
@@ -43,6 +42,8 @@
 					</Anchors>
 				</FontString>
 			</Layer>
+			
+			
 		</Layers>
 
 		<Frames>
@@ -52,40 +53,44 @@
 				<BarTexture file="Interface\Buttons\UI-Listbox-Highlight2"/>
 				<BarColor r="1.0" g="155" b="255"/>
 				<Size>
-					<AbsDimension x="15" y="90" />
+					<AbsDimension x="10" y="90" />
 				</Size>
 				<Anchors>
 					<Anchor point="TOP">
 						<Offset x="0" y="-15" />
 					</Anchor>
 				</Anchors>
-				
-				<Layer level="OVERLAY">
-					<Texture name="bar" file="bar.tga">
-						<Anchors>
-							<Anchor point="CENTER"></Anchor>
-						</Anchors>
-					</Texture>
-				</Layer>
 				<Scripts>
 				</Scripts>
+				
+				<!-- Add the center "level flight" texture to the bottom of the positive attitude bar -->
+				<Layers>
+					<Layer level="OVERLAY">
+						<Texture name="levelFlightMarker" file="Interface\Minimap\Vehicle-Air-Occupied.png">
+							<Anchors>
+								<Anchor point="CENTER" relativePoint="BOTTOM"></Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
 			</StatusBar>
+			
 			<!-- Negative pitch bar -->
+			<!-- The background acts as the bar here to simulate a downwards fills bar.  The StatusBar looks like the background due to it;s colour settings and the fact that it defaults to maxValue -->
 			<StatusBar name="$_negAttitudeBar" parentKey="negAttitudeBar" toplevel="true" orientation="VERTICAL" minValue="0" maxValue="90" defaultValue="90">
 				<Backdrop bgFile="Interface\Buttons\UI-Listbox-Highlight2" />
 				<BarTexture file="Interface\Buttons\UI-Listbox-Highlight2"/>
 				<BarColor r="0" g="0" b="0"/>
 				<Size>
-					<AbsDimension x="15" y="90" />
+					<AbsDimension x="10" y="90" />
 				</Size>
 				<Anchors>
-					<Anchor point="TOP" relativeTo="$_posAttitudeBar" relativePoint="BOTTOM">
-						<Offset x="0" y="0" />
-					</Anchor>
+					<Anchor point="TOP" relativeTo="$_posAttitudeBar" relativePoint="BOTTOM"/>
 				</Anchors>
 				<Scripts>
 				</Scripts>
 			</StatusBar>
+			
 		</Frames>
 
 		<Scripts>
