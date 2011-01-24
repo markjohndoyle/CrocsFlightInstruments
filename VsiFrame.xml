@@ -5,7 +5,7 @@
 	<!-- Container frame - plain with no border -->
 	<Frame name="vsiFrame" moveable="true" clampedToScreen="true">
 		<Size>
-			<AbsDimension x="139" y="137" />
+			<AbsDimension x="139" y="230" />
 		</Size>
 	
 		<Anchors>
@@ -18,7 +18,6 @@
 	
 		<TitleRegion setAllPoints="true" />
 	
-		<!--<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Gold-Border" tile="true">-->
 		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" tile="true">
 			<BackgroundInsets>
 				<AbsInset left="11" right="12" top="12" bottom="11" />
@@ -26,11 +25,6 @@
 			<TileSize>
 				<AbsValue val="32" />
 			</TileSize>
-			<!--
-				<EdgeSize>
-					<AbsValue val="32" />
-				</EdgeSize>
-			-->
 		</Backdrop>
 	
 		<Layers>
@@ -52,8 +46,9 @@
 		</Layers>
 
 		<Frames>
-			<!-- Statusbar updates are currentyl controlled by the main frame OnUpdate callback -->
-			<StatusBar name="$_attitudeBar" parentKey="attitudeBar" toplevel="true" orientation="VERTICAL" minValue="-90" maxValue="90" defaultValue="0">
+			<!-- Statusbar updates are currently controlled by the main frame OnUpdate callback -->
+			<StatusBar name="$_posAttitudeBar" parentKey="posAttitudeBar" toplevel="true" orientation="VERTICAL" minValue="0" maxValue="90" defaultValue="0">
+				<Backdrop bgFile="Interface\Buttons\UI-Listbox-Highlight2" />
 				<BarTexture file="Interface\Buttons\UI-Listbox-Highlight2"/>
 				<BarColor r="1.0" g="155" b="255"/>
 				<Size>
@@ -72,6 +67,22 @@
 						</Anchors>
 					</Texture>
 				</Layer>
+				<Scripts>
+				</Scripts>
+			</StatusBar>
+			<!-- Negative pitch bar -->
+			<StatusBar name="$_negAttitudeBar" parentKey="negAttitudeBar" toplevel="true" orientation="VERTICAL" minValue="0" maxValue="90" defaultValue="90">
+				<Backdrop bgFile="Interface\Buttons\UI-Listbox-Highlight2" />
+				<BarTexture file="Interface\Buttons\UI-Listbox-Highlight2"/>
+				<BarColor r="0" g="0" b="0"/>
+				<Size>
+					<AbsDimension x="15" y="90" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOP" relativeTo="$_posAttitudeBar" relativePoint="BOTTOM">
+						<Offset x="0" y="0" />
+					</Anchor>
+				</Anchors>
 				<Scripts>
 				</Scripts>
 			</StatusBar>
