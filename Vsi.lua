@@ -51,7 +51,7 @@ local function setPitchBars(attitude)
 		-- if we are in level flight
 		if(attitude == 0) then
 			-- set both bars to show a blue "middle" to the level-flight-marker texture
-			local LEVEL_LIGHT_SIZE = 4;
+			local LEVEL_LIGHT_SIZE = 8;
 			vsiFrame.posAttitudeBar:SetValue(LEVEL_LIGHT_SIZE);
 			vsiFrame.negAttitudeBar:SetValue(MAX + -LEVEL_LIGHT_SIZE);
 		elseif(attitude > 0) then

@@ -5,7 +5,7 @@
 	<!-- Container frame - plain with no border -->
 	<Frame name="vsiFrame" moveable="true" clampedToScreen="true">
 		<Size>
-			<AbsDimension x="80" y="230" />
+			<AbsDimension x="80" y="140" />
 		</Size>
 	
 		<Anchors>
@@ -40,7 +40,7 @@
 				<BarTexture file="Interface\Buttons\UI-Listbox-Highlight2"/>
 				<BarColor r="1.0" g="155" b="255"/>
 				<Size>
-					<AbsDimension x="10" y="90" />
+					<AbsDimension x="8" y="45" />
 				</Size>
 				<Anchors>
 					<Anchor point="TOP">
@@ -69,7 +69,7 @@
 				<BarTexture file="Interface\Buttons\UI-Listbox-Highlight2"/>
 				<BarColor r="0" g="0" b="0"/>
 				<Size>
-					<AbsDimension x="10" y="90" />
+					<AbsDimension x="8" y="45" />
 				</Size>
 				<Anchors>
 					<Anchor point="TOP" relativeTo="$_posAttitudeBar" relativePoint="BOTTOM"/>
