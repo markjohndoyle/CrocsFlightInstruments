@@ -1,6 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemalocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+	xsi:schemalocation="UI.xsd">
 
 	<!-- Container frame - plain with no border -->
 	<Frame name="vsiFrame" moveable="true" clampedToScreen="true">
@@ -18,17 +18,6 @@
 	
 		<TitleRegion setAllPoints="true" />
 	
-		<!--
-		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" tile="true">
-			<BackgroundInsets>
-				<AbsInset left="11" right="12" top="12" bottom="11" />
-			</BackgroundInsets>
-			<TileSize>
-				<AbsValue val="32" />
-			</TileSize>
-		</Backdrop>
-		-->
-	
 		<Layers>			
 			<Layer>
 				<FontString name="attitudeText" inherits="GameFontNormal">
@@ -41,9 +30,7 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-			</Layer>
-			
-			
+			</Layer>	
 		</Layers>
 
 		<Frames>
@@ -66,7 +53,7 @@
 				<!-- Add the center "level flight" texture to the bottom of the positive attitude bar -->
 				<Layers>
 					<Layer level="OVERLAY">
-						<Texture name="levelFlightMarker" file="Interface\Minimap\Vehicle-Air-Occupied.png">
+						<Texture name="levelFlightMarker" file="Interface\AddOns\CrocsFlightInstruments\images\level-flight-marker" setAllPoints="true">
 							<Anchors>
 								<Anchor point="CENTER" relativePoint="BOTTOM"></Anchor>
 							</Anchors>

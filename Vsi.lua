@@ -43,16 +43,17 @@ local function setPitchBars(attitude)
 	local MIN, MAX = vsiFrame.negAttitudeBar:GetMinMaxValues();
 	
 	-- if the attitude is not a number (for reasons this function doesn't care about)
-	-- set them bars to level flight.
 	if (type(attitude) ~= "number") then
+		-- set the bars to level flight.
 		vsiFrame.posAttitudeBar:SetValue(MIN);
 		vsiFrame.negAttitudeBar:SetValue(MAX);
 	else
 		-- if we are in level flight
 		if(attitude == 0) then
-			-- the neg bar is black to simulate it filling "downwards" so we must set it to full, i.e., 90
-			vsiFrame.posAttitudeBar:SetValue(attitude);
-			vsiFrame.negAttitudeBar:SetValue(MAX);
+			-- set both bars to show a blue "middle" to the level-flight-marker texture
+			local LEVEL_LIGHT_SIZE = 4;
+			vsiFrame.posAttitudeBar:SetValue(LEVEL_LIGHT_SIZE);
+			vsiFrame.negAttitudeBar:SetValue(MAX + -LEVEL_LIGHT_SIZE);
 		elseif(attitude > 0) then
 			-- the neg bar is black to simulate it filling "downwards" so we must set it to full, i.e., 90
 			vsiFrame.posAttitudeBar:SetValue(attitude);
@@ -78,7 +79,7 @@ local function setAttitudeBarColours(attitude)
 		if(att == 0) then -- level flight
 			posBarColour = getColour(0, 155, 255, 1);
 			negBarColour = getColour(0, 0, 0, 1);
-			negBackdropColour = getColour(0, 0, 0, 0);
+			negBackdropColour = getColour(0, 155, 255, 1);
 		elseif(att < 0) then -- negative pitch
 			posBarColour = getColour(255, 0, 0, 1);
 			negBarColour = getColour(0, 0, 0, 1);
